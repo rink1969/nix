@@ -385,12 +385,6 @@ pub enum FcntlArg<'a> {
     F_SETLK(&'a libc::flock),
     F_SETLKW(&'a libc::flock),
     F_GETLK(&'a mut libc::flock),
-    #[cfg(any(target_os = "linux", target_os = "android"))]
-    F_OFD_SETLK(&'a libc::flock),
-    #[cfg(any(target_os = "linux", target_os = "android"))]
-    F_OFD_SETLKW(&'a libc::flock),
-    #[cfg(any(target_os = "linux", target_os = "android"))]
-    F_OFD_GETLK(&'a mut libc::flock),
     #[cfg(any(target_os = "android", target_os = "linux"))]
     F_ADD_SEALS(SealFlag),
     #[cfg(any(target_os = "android", target_os = "linux"))]
@@ -433,12 +427,6 @@ pub fn fcntl(fd: RawFd, arg: FcntlArg) -> Result<c_int> {
             F_SETLKW(flock) => libc::fcntl(fd, libc::F_SETLKW, flock),
             #[cfg(not(target_os = "redox"))]
             F_GETLK(flock) => libc::fcntl(fd, libc::F_GETLK, flock),
-            #[cfg(any(target_os = "android", target_os = "linux"))]
-            F_OFD_SETLK(flock) => libc::fcntl(fd, libc::F_OFD_SETLK, flock),
-            #[cfg(any(target_os = "android", target_os = "linux"))]
-            F_OFD_SETLKW(flock) => libc::fcntl(fd, libc::F_OFD_SETLKW, flock),
-            #[cfg(any(target_os = "android", target_os = "linux"))]
-            F_OFD_GETLK(flock) => libc::fcntl(fd, libc::F_OFD_GETLK, flock),
             #[cfg(any(target_os = "android", target_os = "linux"))]
             F_ADD_SEALS(flag) => libc::fcntl(fd, libc::F_ADD_SEALS, flag.bits()),
             #[cfg(any(target_os = "android", target_os = "linux"))]
